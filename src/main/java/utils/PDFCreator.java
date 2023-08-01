@@ -18,7 +18,7 @@ import java.util.Date;
 public class PDFCreator {
     public PDFCreator() {
         this.fontSize = 14;
-        this.fontType = PDType1Font.COURIER_OBLIQUE;
+        this.fontType = PDType1Font.HELVETICA;
     }
 
     public void setFontSize(int fontSize) {
@@ -41,7 +41,8 @@ public class PDFCreator {
         doc.close();
     }
 
-    public String addText1LineToPDF(String sourcePathFile, String newSavedFileName, int tx, int ty) throws IOException {
+    public String addText1LineToPDF(String sourcePathFile, String newSavedFileName
+            , int tx, int ty, String textInput) throws IOException {
 
         File file = new File(sourcePathFile);
 //        PDDocument doc = Loader.loadPDF(file); //for pdfBox3.0
@@ -56,7 +57,8 @@ public class PDFCreator {
 //        contentStream.setFont( pdType1Font, 14);
         Date now = new Date();
         contentStream.newLineAtOffset(tx, ty);
-        String text = "TEST by AT. Q-SYS " + tx + "*" + ty + " (tx*ty). Time: " + now.toString();
+        String text = textInput.replace("\n", "").replace("\r", "");
+//        String text = textInput;
         contentStream.showText(text);
         contentStream.endText();
         System.out.println("New Text Content is added in the PDF Document.");
