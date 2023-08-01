@@ -8,6 +8,7 @@ package utils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 import java.awt.*;
@@ -18,7 +19,8 @@ import java.util.Date;
 public class PDFCreator {
     public PDFCreator() {
         this.fontSize = 14;
-        this.fontType = PDType1Font.HELVETICA;
+//        this.fontType = PDType1Font.HELVETICA;
+
     }
 
     public void setFontSize(int fontSize) {
@@ -26,12 +28,11 @@ public class PDFCreator {
     }
 
     private int fontSize;
-    private PDType1Font fontType;
+    private PDType0Font fontType;
 
     public void createPDF(String nameOfPDFFile) throws IOException {
         //Creating PDF document object
         PDDocument doc = new PDDocument();
-
         PDPage blankPage = new PDPage();
         //Saving the document
         doc.addPage(blankPage);
@@ -47,6 +48,11 @@ public class PDFCreator {
         File file = new File(sourcePathFile);
 //        PDDocument doc = Loader.loadPDF(file); //for pdfBox3.0
         PDDocument doc = PDDocument.load(file);
+        this.fontType = PDType0Font.load(doc
+                , new File("c:\\Users\\a.tulenev\\IdeaProjects\\printTest\\fonts\\beer-money12.ttf"));
+//        d9464-arkhip_font.ttf
+//        this.fontType = PDType0Font.load(doc
+//                , new File("c:\\Users\\a.tulenev\\IdeaProjects\\printTest\\fonts\\d9464-arkhip_font.ttf"));
         PDPage page = doc.getPage(0);
         PDPageContentStream contentStream = new PDPageContentStream(doc, page, true, true); //Append mode
 
@@ -57,9 +63,9 @@ public class PDFCreator {
 //        contentStream.setFont( pdType1Font, 14);
         Date now = new Date();
         contentStream.newLineAtOffset(tx, ty);
-        String text = textInput.replace("\n", "").replace("\r", "");
-//        String text = textInput;
-        contentStream.showText(text);
+//        String text = textInput.replace("\n", "").replace("\r", "");
+
+        contentStream.showText(textInput);
         contentStream.endText();
         System.out.println("New Text Content is added in the PDF Document.");
         contentStream.close();
