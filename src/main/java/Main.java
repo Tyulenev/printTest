@@ -26,7 +26,7 @@ public class Main {
         pdfCreator.addText1LineToPDF(pdfResultTicketName, pdfResultTicketName, 10, 365
                 , (new Date()).toString());
         pdfCreator.addText1LineToPDF(pdfResultTicketName, pdfResultTicketName, 10, 355
-                , "русский текст. ТЕСТ");
+                , "русский текст. ТЕСТ. Пример длинной строки, переноса не происходит!");
 
 
         pdfCreator.setFontSize(60);
